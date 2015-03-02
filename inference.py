@@ -165,8 +165,8 @@ class ExactInference(InferenceModule):
 				allPossible[p] = emissionModel[trueDistance] #for this location p update the probability of it being here	
 				allPossible[p] = allPossible[p]*self.beliefs[p] #apply this new belief to the old belief
         
-		if (inJail == True): #If we knew the ghost was in jail, that position has 100% probability
-			allPossible[self.getJailPosition()] = 1.0
+        if (inJail == True): #If we knew the ghost was in jail, that position has 100% probability
+	    allPossible[self.getJailPosition()] = 1.0
         "*** END YOUR CODE HERE ***"
 
         allPossible.normalize()
