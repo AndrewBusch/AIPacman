@@ -163,4 +163,62 @@ class GreedyBustersAgent(BustersAgent):
             [beliefs for i, beliefs in enumerate(self.ghostBeliefs)
              if livingGhosts[i+1]]
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        #util.raiseNotDefined()
+
+        #Get best positions from each beliefs b
+        bestPositions = [max(b, key=b.get) for b in livingGhostPositionDistributions] #Look at the beliefs for each ghost distributions
+
+        bestDist = 1024 #Find smallest distance
+        bestDir = 'none' #Choose movement direction
+        for p in bestPositions: #Cycle through all the best positions of the ghosts. Go towards closest
+
+            #Try a direction, catch the exception if it is illegal to move that way
+            try:
+                if (self.distancer.getDistance(Actions.getSuccessor(pacmanPosition, Directions.EAST), p) < bestDist):
+                    bestDist = self.distancer.getDistance(Actions.getSuccessor(pacmanPosition, Directions.EAST), p)
+                    bestDir = 'EAST'
+                    
+            except:
+                pass
+
+            try:
+                if(self.distancer.getDistance(Actions.getSuccessor(pacmanPosition, Directions.WEST), p) < bestDist):
+                    bestDist = self.distancer.getDistance(Actions.getSuccessor(pacmanPosition, Directions.WEST), p)
+                    bestDir = 'WEST'
+                    
+            except:
+                pass
+
+            try:
+                if(self.distancer.getDistance(Actions.getSuccessor(pacmanPosition, Directions.SOUTH), p) < bestDist):
+                    bestDist = self.distancer.getDistance(Actions.getSuccessor(pacmanPosition, Directions.SOUTH), p)
+                    bestDir = 'SOUTH'
+            except:
+                pass
+
+            try:
+                if(self.distancer.getDistance(Actions.getSuccessor(pacmanPosition, Directions.NORTH), p) < bestDist):
+                    bestDist = self.distancer.getDistance(Actions.getSuccessor(pacmanPosition, Directions.NORTH), p)
+                    bestDir = 'NORTH'
+            except:
+                pass
+
+        #Which direction was best? Go that way.
+        if (bestDir == 'EAST'):
+            return Directions.EAST
+        elif (bestDir == 'WEST'):
+            return Directions.WEST
+        elif (bestDir == 'SOUTH'):
+            return Directions.SOUTH
+        elif (bestDir == 'NORTH'):
+            return Directions.NORTH
+
+        #Will only happen in case of massive problems.
+        return Directions.STOP
+        
+        
+
+
+
+
+        
