@@ -229,15 +229,14 @@ class ExactInference(InferenceModule):
         #util.raiseNotDefined()
         allPossible = util.Counter()
 
-
-        print ', '.join(str(x) for x in self.getPositionDistribution(gameState))
-        
-        for p in self.legalPositions:
+        newBeliefs = allPossible #copy the original data
+        for p in self.legalPositions: #cycle through old positions
             newPosDist = self.getPositionDistribution(self.setGhostPosition(gameState,p))
             
-            for newPos, prob in newPosDist.items():
-                allPossible[newPos] += self.beliefs[p] * prob
+            for newPos, prob in newPosDist.items(): #cycle through positions and their probabilities
+                newBeliefs[newPos] += self.beliefs[p] * prob #Store temporary data about beliefs
 
+        allPossible = newBeliefs #Copy the data
         allPossible.normalize()
         self.beliefs = allPossible
 
